@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "youroku-app"
+version = "0.1.0"
+description = "A simple blog application"
+authors = ["hikaminishi <jory1811@yahoo.co.jp>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+flask = "^2.3.3"
+flask-login = "^0.6.3"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
