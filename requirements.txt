@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 gunicorn==23.0.0
 packaging==24.2
-=======
-flask
 gunicorn
->>>>>>> 4267fb531208fd1b35ed148600870e970313b02e
+flask==2.0.2
+numpy==1.21.2
+pandas==1.3.3
