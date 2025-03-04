@@ -1,3 +1,5 @@
+FROM ubuntu:latest
+
 # ベースイメージを指定
 FROM python:3.9
 
@@ -17,7 +19,7 @@ EXPOSE 5000
 
 # 必要なパッケージをインストール
 RUN apt-get update && apt-get install -y \
-    sed \
+    ncurses-bin \
     && rm -rf /var/lib/apt/lists/*
 
 # アプリケーションのコードをコピー
