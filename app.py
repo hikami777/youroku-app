@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 import random
+import os
 
 # Flaskアプリケーションのセットアップ
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # セッション用の秘密鍵を設定
+app.secret_key = os.environ.get("SECRET_KEY", "default_secret_key")  # 環境変数から読み込む
 
 # Flask-Loginのセットアップ
 login_manager = LoginManager()
@@ -101,8 +102,3 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-import os
-
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Render が提供する PORT を取得（デフォルト5000）
-    app.run(host='0.0.0.0', port=port)  # 0.0.0.0 でリッスン
