@@ -17,6 +17,7 @@ SORT_LABELS = {
     "pbr_asc": "PBR（低い順）",
     "market_cap_desc": "時価総額（大きい順）",
     "roe_desc": "ROE（高い順）",
+    "volume_ratio_desc": "出来高急増（平均比が大きい順）",
 }
 
 
@@ -47,6 +48,7 @@ def screen():
         "dividend_min": _to_float(request.form.get("dividend_min")),
         "market_cap_min": _to_float(request.form.get("market_cap_min")),
         "roe_min": _to_float(request.form.get("roe_min")),
+        "volume_ratio_min": _to_float(request.form.get("volume_ratio_min")),
         "sector": request.form.get("sector") or None,
     }
     sort_key = request.form.get("sort") or DEFAULT_SORT

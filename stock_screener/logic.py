@@ -7,6 +7,7 @@ SORT_OPTIONS = {
     "pbr_asc": ("pbr", False),
     "market_cap_desc": ("market_cap", True),
     "roe_desc": ("roe", True),
+    "volume_ratio_desc": ("volume_ratio", True),
 }
 
 DEFAULT_SORT = "dividend_desc"
@@ -28,6 +29,9 @@ def passes_criteria(row, criteria):
             return False
     if criteria.get("roe_min") is not None:
         if row.get("roe") is None or row["roe"] < criteria["roe_min"]:
+            return False
+    if criteria.get("volume_ratio_min") is not None:
+        if row.get("volume_ratio") is None or row["volume_ratio"] < criteria["volume_ratio_min"]:
             return False
     if criteria.get("sector"):
         if row.get("sector") != criteria["sector"]:

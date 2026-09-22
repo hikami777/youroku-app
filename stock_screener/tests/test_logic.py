@@ -6,7 +6,16 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from logic import filter_rows, sort_rows, passes_criteria
 
 
-def make_row(code, per=None, pbr=None, dividend_yield=None, market_cap=None, roe=None, sector="電気機器"):
+def make_row(
+    code,
+    per=None,
+    pbr=None,
+    dividend_yield=None,
+    market_cap=None,
+    roe=None,
+    volume_ratio=None,
+    sector="電気機器",
+):
     return {
         "code": code,
         "per": per,
@@ -14,6 +23,7 @@ def make_row(code, per=None, pbr=None, dividend_yield=None, market_cap=None, roe
         "dividend_yield": dividend_yield,
         "market_cap": market_cap,
         "roe": roe,
+        "volume_ratio": volume_ratio,
         "sector": sector,
     }
 
@@ -79,3 +89,24 @@ def test_sort_rows_unknown_key_falls_back_to_default():
     ]
     sorted_rows = sort_rows(rows, "not_a_real_key")
     assert [r["code"] for r in sorted_rows] == ["C", "A"]
+
+
+def test_passes_criteria_volume_ratio_min():
+    row = make_row("0001", volume_ratio=3.5)
+    assert passes_criteria(row, {"volume_ratio_min": 2.0}) is True
+    assert passes_criteria(row, {"volume_ratio_min": 5.0}) is False
+
+
+def test_passes_criteria_volume_ratio_excludes_missing_metric():
+    row = make_row("0001", volume_ratio=None)
+    assert passes_criteria(row, {"volume_ratio_min": 2.0}) is False
+
+
+def test_sort_rows_volume_ratio_desc_puts_none_last():
+    rows = [
+        make_row("A", volume_ratio=1.2),
+        make_row("B", volume_ratio=None),
+        make_row("C", volume_ratio=4.8),
+    ]
+    sorted_rows = sort_rows(rows, "volume_ratio_desc")
+    assert [r["code"] for r in sorted_rows] == ["C", "A", "B"]
