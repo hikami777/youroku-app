@@ -23,6 +23,7 @@
             <th>配当利回り</th>
             <th>時価総額(億円)</th>
             <th>ROE</th>
+            <th>出来高倍率</th>
         </tr>
     </thead>
     <tbody>
@@ -37,6 +38,7 @@
             <td>{{ "%.2f"|format(row.dividend_yield) + "%" if row.dividend_yield is not none else "-" }}</td>
             <td>{{ "%.0f"|format(row.market_cap) if row.market_cap is not none else "-" }}</td>
             <td>{{ "%.1f"|format(row.roe) + "%" if row.roe is not none else "-" }}</td>
+            <td>{{ "%.1f"|format(row.volume_ratio) + "倍" if row.volume_ratio is not none else "-" }}</td>
         </tr>
         {% endfor %}
     </tbody>

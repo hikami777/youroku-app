@@ -1,6 +1,8 @@
 # 個別株スクリーニング
 
-東証プライムの主要銘柄（`tickers.py` に約80銘柄を収録）を対象に、PER・PBR・配当利回り・時価総額・ROE・セクターの条件で絞り込める、Flask製の簡易スクリーニングアプリです。株価・指標データは [yfinance](https://pypi.org/project/yfinance/) 経由で Yahoo! Finance から取得します。
+東証プライムの主要銘柄（`tickers.py` に約80銘柄を収録）を対象に、PER・PBR・配当利回り・時価総額・ROE・出来高急増倍率・セクターの条件で絞り込める、Flask製の簡易スクリーニングアプリです。株価・指標データは [yfinance](https://pypi.org/project/yfinance/) 経由で Yahoo! Finance から取得します。
+
+「出来高急増倍率」は直近の出来高が平均出来高（yfinanceの `averageVolume`）の何倍かを表す簡易指標です。機関投資家の売買動向や決算の上方修正といった情報はyfinanceでは信頼性高く取得できないため、現時点では未対応です。
 
 このディレクトリは `youroku-app` リポジトリのルートアプリ（通知表所見文生成アプリ）とは独立した別アプリです。
 

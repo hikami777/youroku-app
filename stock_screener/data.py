@@ -27,6 +27,9 @@ def _fetch_from_source(code):
         return None
 
     market_cap = info.get("marketCap")
+    volume = info.get("volume") or info.get("regularMarketVolume")
+    average_volume = info.get("averageVolume") or info.get("averageVolume10days")
+
     return {
         "code": code,
         "price": info.get("currentPrice") or info.get("regularMarketPrice"),
@@ -35,6 +38,8 @@ def _fetch_from_source(code):
         "dividend_yield": _normalize_percent(info.get("dividendYield")),
         "market_cap": market_cap / 1e8 if market_cap else None,  # 億円換算
         "roe": _normalize_percent(info.get("returnOnEquity")),
+        # 直近出来高が平均出来高の何倍か（出来高急増の目安。1.0なら平均並み）
+        "volume_ratio": volume / average_volume if volume and average_volume else None,
     }
 
 
