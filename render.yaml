@@ -5,3 +5,11 @@ services:
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn -w 4 -b 0.0.0.0:$PORT app:app
+
+  - type: web
+    name: stock-screener
+    env: python
+    plan: free
+    rootDir: stock_screener
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn -w 2 -b 0.0.0.0:$PORT app:app
