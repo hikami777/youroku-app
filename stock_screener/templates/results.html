@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<p><a href="{{ url_for('index') }}">&larr; 条件を変更する</a></p>
+
+<div class="summary">
+    <p>対象 {{ total_targets }} 銘柄中 {{ fetched_count }} 銘柄のデータを取得し、
+    <strong>{{ matched_count }}</strong> 銘柄が条件に一致しました。（並び替え: {{ sort_label }}）</p>
+    {% if fetched_count < total_targets %}
+    <p class="warning">{{ total_targets - fetched_count }} 銘柄はデータを取得できませんでした（一時的な通信エラーの可能性があります）。</p>
+    {% endif %}
+</div>
+
+{% if rows %}
+<table class="results-table">
+    <thead>
+        <tr>
+            <th>コード</th>
+            <th>銘柄名</th>
+            <th>セクター</th>
+            <th>株価</th>
+            <th>PER</th>
+            <th>PBR</th>
+            <th>配当利回り</th>
+            <th>時価総額(億円)</th>
+            <th>ROE</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in rows %}
+        <tr>
+            <td>{{ row.code }}</td>
+            <td>{{ row.name }}</td>
+            <td>{{ row.sector }}</td>
+            <td>{{ "%.1f"|format(row.price) if row.price is not none else "-" }}</td>
+            <td>{{ "%.1f"|format(row.per) if row.per is not none else "-" }}</td>
+            <td>{{ "%.2f"|format(row.pbr) if row.pbr is not none else "-" }}</td>
+            <td>{{ "%.2f"|format(row.dividend_yield) + "%" if row.dividend_yield is not none else "-" }}</td>
+            <td>{{ "%.0f"|format(row.market_cap) if row.market_cap is not none else "-" }}</td>
+            <td>{{ "%.1f"|format(row.roe) + "%" if row.roe is not none else "-" }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>条件に一致する銘柄はありませんでした。条件を緩めて再度お試しください。</p>
+{% endif %}
+{% endblock %}

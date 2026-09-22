@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="lead">条件を入力して、東証の主要銘柄を絞り込みます。空欄の項目は条件から除外されます。</p>
+
+<form method="post" action="{{ url_for('screen') }}" class="screen-form">
+    <div class="field-grid">
+        <label>
+            PER 上限
+            <input type="number" step="0.1" min="0" name="per_max" placeholder="例: 15">
+        </label>
+        <label>
+            PBR 上限
+            <input type="number" step="0.01" min="0" name="pbr_max" placeholder="例: 1.5">
+        </label>
+        <label>
+            配当利回り 下限 (%)
+            <input type="number" step="0.1" min="0" name="dividend_min" placeholder="例: 3">
+        </label>
+        <label>
+            時価総額 下限 (億円)
+            <input type="number" step="1" min="0" name="market_cap_min" placeholder="例: 1000">
+        </label>
+        <label>
+            ROE 下限 (%)
+            <input type="number" step="0.1" min="0" name="roe_min" placeholder="例: 8">
+        </label>
+        <label>
+            セクター
+            <select name="sector">
+                <option value="">指定なし</option>
+                {% for sector in sectors %}
+                <option value="{{ sector }}">{{ sector }}</option>
+                {% endfor %}
+            </select>
+        </label>
+        <label>
+            並び替え
+            <select name="sort">
+                {% for key, label in sort_options.items() %}
+                <option value="{{ key }}" {% if key == default_sort %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </label>
+    </div>
+    <button type="submit">スクリーニング実行</button>
+</form>
+{% endblock %}

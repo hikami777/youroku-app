@@ -1,0 +1,110 @@
+:root {
+    color-scheme: light dark;
+    --accent: #1a6b45;
+    --border: #d8ddd9;
+    --bg-muted: #f3f6f4;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1rem 3rem;
+    line-height: 1.6;
+}
+
+header h1 {
+    font-size: 1.4rem;
+}
+
+header h1 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.lead {
+    color: #555;
+}
+
+.field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.field-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.field-grid input,
+.field-grid select {
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+button[type="submit"] {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    opacity: 0.9;
+}
+
+.summary {
+    background: var(--bg-muted);
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.warning {
+    color: #a15c00;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.results-table th,
+.results-table td {
+    border-bottom: 1px solid var(--border);
+    padding: 0.5rem 0.6rem;
+    text-align: right;
+}
+
+.results-table th:nth-child(1),
+.results-table th:nth-child(2),
+.results-table th:nth-child(3),
+.results-table td:nth-child(1),
+.results-table td:nth-child(2),
+.results-table td:nth-child(3) {
+    text-align: left;
+}
+
+.results-table thead {
+    background: var(--bg-muted);
+}
+
+footer {
+    margin-top: 2rem;
+    color: #777;
+    font-size: 0.8rem;
+}
