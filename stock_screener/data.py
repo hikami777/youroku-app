@@ -1,13 +1,19 @@
 # yfinance経由で東証銘柄の指標を取得する。ネットワークI/Oはここに閉じ込め、
 # フィルタ・ソートのロジック（logic.py）とは分離してある。
 
+import logging
 import time
 import concurrent.futures
 
 import yfinance as yf
 
 CACHE_TTL_SECONDS = 30 * 60  # 30分キャッシュ（同じ銘柄への再問い合わせを減らす）
-MAX_WORKERS = 10
+# Yahoo! Finance側のレート制限に引っかかりやすいため、並列数は控えめにする
+MAX_WORKERS = 4
+RETRY_COUNT = 2
+RETRY_BACKOFF_SECONDS = 1.5
+
+logger = logging.getLogger(__name__)
 
 _cache = {}
 
@@ -50,10 +56,19 @@ def get_stock_data(code, force_refresh=False):
     if not force_refresh and cached and now - cached[1] < CACHE_TTL_SECONDS:
         return cached[0]
 
-    try:
-        data = _fetch_from_source(code)
-    except Exception:
-        data = None
+    data = None
+    last_error = None
+    for attempt in range(1, RETRY_COUNT + 1):
+        try:
+            data = _fetch_from_source(code)
+            break
+        except Exception as exc:  # yfinance/Yahoo側のレート制限やタイムアウトなど
+            last_error = exc
+            if attempt < RETRY_COUNT:
+                time.sleep(RETRY_BACKOFF_SECONDS)
+
+    if data is None and last_error is not None:
+        logger.warning("stock_screener: failed to fetch %s: %s: %s", code, type(last_error).__name__, last_error)
 
     if data:
         _cache[code] = (data, now)
